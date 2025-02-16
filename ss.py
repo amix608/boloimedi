@@ -17,12 +17,12 @@ blp = Blueprint("Stores", __name__, description="Operations on stores")
  
 @blp.route("/store")
 class xura(MethodView):
-   ##@jwt_required()
+   @jwt_required()
    @blp.response(200,StoreSchema(many=True))
    def get(self):
         return StoreModel.query.all()
 
-  
+   @jwt_required()
    @blp.arguments(StoreSchema)
    @blp.response(201,StoreSchema)
    def post(self,axali_data):

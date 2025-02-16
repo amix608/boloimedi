@@ -32,11 +32,12 @@ def create_app(db_url=None):
  
  
  api=Api(app)
- with app.app_context():
-       db.create_all()
  
  app.config["JWT_SECRET_KEY"]="262784093388246059040945468442683876552"
  jwt=JWTManager(app)
+ with app.app_context():
+       db.create_all()
+ 
 
  @jwt.token_in_blocklist_loader
  def token_inbloklist(jwt_header,jwt_payload):

@@ -10,13 +10,13 @@ blp = Blueprint("item", __name__, description="Operations on item")
 
 @blp.route("/item")
 class xura(MethodView):
-   ## @jwt_required()
+    @jwt_required()
     @blp.response(200,ItemSchema(many=True))
     def get(self):
         return ItemModel.query.all()
 
 
-   
+    
     @blp.arguments(ItemSchema)
     @blp.response(200,ItemSchema)
     @jwt_required()
@@ -52,16 +52,18 @@ class xura1(MethodView):
         return {"message":"wavshale item"}
     
     
-    @jwt_required()
+    
     @blp.arguments(ItemUpdateSchema)
     @blp.response(200,ItemSchema)
+    @jwt_required()
     def put(self,axali_data,item_id):
-        item=ItemModel.query.get(item_id)
-        if item:
-         item.name=axali_data["name"]
-         item.price=axali_data["price"]
+        itemn=ItemModel.query.get(item_id)
+        if itemn:
+         itemn.name=axali_data["name"]
+         itemn.price=axali_data["price"]
         else :
-            item=ItemModel(**axali_data)
-        db.session.add(item)
+            itemn=ItemModel(id=item_id,**axali_data)
+        db.session.add(itemn)
         db.session.commit()
-        return item
+        return itemn
+     
