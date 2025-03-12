@@ -13,8 +13,12 @@ class xura(MethodView):
     @jwt_required()
     @blp.response(200,ItemSchema(many=True))
     def get(self):
-        return ItemModel.query.all()
-
+         d=ItemModel.query.all()
+         sx=[]
+         for s in d:
+             sx.append(s)
+         return sx
+             
 
     
     @blp.arguments(ItemSchema)

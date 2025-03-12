@@ -7,6 +7,8 @@ import models
 import secrets
 from blocklist import BLOCKLIST
 from ss import blp as StoreBlueprint
+from flask_migrate import Migrate
+
 from ii import blp as ItemBlueprint
 from uuser import blp as UserBlueprint
 from flask_jwt_extended import JWTManager
@@ -30,15 +32,12 @@ def create_app(db_url=None):
  app.config["PROPAGATE_EXCEPTIONS"] = True
  db.init_app(app)
  
- 
+ migrate=Migrate(app,db)
  api=Api(app)
  
  app.config["JWT_SECRET_KEY"]="262784093388246059040945468442683876552"
  jwt=JWTManager(app)
- with app.app_context():
-       db.create_all()
  
-
  @jwt.token_in_blocklist_loader
  def token_inbloklist(jwt_header,jwt_payload):
      return jwt_payload["jti"] in BLOCKLIST
@@ -78,5 +77,7 @@ def create_app(db_url=None):
  api.register_blueprint(StoreBlueprint)
  api.register_blueprint(ItemBlueprint)
  api.register_blueprint(UserBlueprint)
+ 
+ 
  
  return app
